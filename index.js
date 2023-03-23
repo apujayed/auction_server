@@ -2,9 +2,9 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
-
+const fs = require("fs");
 const { log } = require("console");
-
+const http = require("http");
 const { Server } = require("socket.io");
 
 const bodyParser = require("body-parser");
@@ -14,10 +14,8 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const https = require('https');
-const fs = require('fs');
+const server = http.createServer(app);
 
-const server = https.createServer( app);
 app.use(express.json());
 // app.use(cors());
 
@@ -241,7 +239,7 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  
+  console.log({tyh:req.session.user})
   if (req.session.user) {
     console.log("kajk");
     res.send({ loggedIn: true, user: req.session.user });
@@ -267,7 +265,7 @@ app.post("/login", (req, res) => {
         bcrypt.compare(password, result[0].password, (error, response) => {
           if (response) {
             req.session.user = result;
-            console.log(req.session.user);
+            console.log({apiu:req.session.user});
             res.send(result);
           } else {
             res.send({ message: "Wrong username/password combination!" });
