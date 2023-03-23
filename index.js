@@ -22,7 +22,7 @@ app.use(express.json());
 //
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://teaeauction.itechpointbd.xyz"],
+    origin: ["http://localhost:3000", "https://teaeauction.itechpointbd.xyz"],
     methods: ["GET", "POST", "PUT"],
     credentials: true,
   })
@@ -30,10 +30,10 @@ app.use(
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://teaeauction.itechpointbd.xyz"],
+    origin: ["http://localhost:3000", "https://teaeauction.itechpointbd.xyz"],
     methods: ["GET", "POST"],
   },
-}); 
+});
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -418,41 +418,41 @@ res.send("Values Inserted");
 
 app.get("/customerdue", (req, res) => {
   
-  // db.query("SELECT id from accounts where status = 0", (err, result) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //    result.forEach(e =>{
-  //     //  console.log(`id is`+e.id);
-  //      db.query(
-  //       "SELECT SUM(payment)/SUM(receive) as due FROM `transaction` WHERE c_id = ? and status = 0",
-  //       [e.id],
-  //       (err, result) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //          const due=(result[0].due);
-  //           db.query(
-  //             "UPDATE accounts set due = ? WHERE id= ?",
-  //             [due,e.id],
-  //             (err, result) => {
-  //               if (err) {
-  //                 console.log(err);
-  //               } else {
+  db.query("SELECT id from accounts where status = 0", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+     result.forEach(e =>{
+      //  console.log(`id is`+e.id);
+       db.query(
+        "SELECT SUM(payment)/SUM(receive) as due FROM `transaction` WHERE c_id = ? and status = 0",
+        [e.id],
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+           const due=(result[0].due);
+            db.query(
+              "UPDATE accounts set due = ? WHERE id= ?",
+              [due,e.id],
+              (err, result) => {
+                if (err) {
+                  console.log(err);
+                } else {
                
-  //     // console.log('due stock');
-  //               }
-  //             }
-  //           );
+      // console.log('due stock');
+                }
+              }
+            );
 
 
-  //         }
-  //       }
-  //     );
-  //    })
-  //     res.send(result);
-  //   }
-  // });
+          }
+        }
+      );
+     })
+      res.send(result);
+    }
+  });
 });
 
 
