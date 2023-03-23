@@ -2,9 +2,9 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
-const fs = require("fs");
+
 const { log } = require("console");
-const http = require("http");
+
 const { Server } = require("socket.io");
 
 const bodyParser = require("body-parser");
@@ -14,8 +14,10 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const server = http.createServer(app);
+const https = require('https');
+const fs = require('fs');
 
+const server = https.createServer( app);
 app.use(express.json());
 // app.use(cors());
 
